@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>교수진 소개 | 광주여자대학교 AI미디어콘텐츠학과</title>
+
+  <style>
+    /* ===== 기본 ===== */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      font-size: 17px;
+      color: #182033;
+      word-break: keep-all;
+    }
+
+    body.menu-open { overflow: hidden; }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .wrap {
+      width: min(1100px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* ===== 헤더 ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 72px;
+      background: #fff;
+      border-bottom: 1px solid #e5e8ef;
+    }
+
+    header .wrap {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #09265a;
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .logo img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    .logo span,
+    .label { color: #2167dc; }
+
+    .label {
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    /* ===== 메뉴 버튼 ===== */
+    .menu-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      color: #09265a;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border: 1px solid #d9dfeb;
+      border-radius: 6px;
+      background: #fff;
+      transition: .2s;
+    }
+
+    .menu-btn:hover {
+      color: #2167dc;
+      border-color: #2167dc;
+    }
+
+    .burger {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 18px;
+    }
+
+    .burger i {
+      display: block;
+      height: 2px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    /* ===== 사이드 메뉴 (화면 절반) ===== */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 199;
+      background: rgba(6, 22, 48, .5);
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s;
+    }
+
+    .menu-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 200;
+      width: 50%;
+      height: 100%;
+      padding: 0 50px;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+      background: #061630;
+      transform: translateX(100%);
+      transition: transform .4s ease;
+    }
+
+    body.menu-open .menu-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    body.menu-open .menu-panel { transform: none; }
+
+    .menu-head {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, .15);
+    }
+
+    .menu-head small {
+      color: #8ec8ff;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .menu-close {
+      color: #fff;
+      font-size: 36px;
+      line-height: 1;
+      cursor: pointer;
+      border: 0;
+      background: none;
+    }
+
+    .menu-list {
+      margin: auto 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .menu-list a {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 0;
+      font-size: 22px;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
+      transition: .25s;
+    }
+
+    .menu-list a span {
+      color: #8ec8ff;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .menu-list a::after {
+      content: "→";
+      margin-left: auto;
+      color: #86cbff;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: .25s;
+    }
+
+    .menu-list a:hover,
+    .menu-list a.active { color: #86cbff; }
+
+    .menu-list a:hover::after {
+      opacity: 1;
+      transform: none;
+    }
+
+    .menu-foot {
+      padding: 26px 0;
+      color: #8a9ab8;
+      font-size: 13px;
+    }
+
+    /* ===== 페이지 상단 타이틀 ===== */
+    .page-hero {
+      padding: 90px 0 70px;
+      color: #fff;
+      background: linear-gradient(135deg, #061630, #09265a 55%, #2167dc);
+    }
+
+    .page-hero small {
+      color: #8ec8ff;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .page-hero h1 {
+      margin: 12px 0 14px;
+      font-size: clamp(36px, 5vw, 52px);
+      letter-spacing: -2px;
+    }
+
+    .breadcrumb {
+      color: #b9cdf0;
+      font-size: 14px;
+    }
+
+    .breadcrumb a:hover { color: #fff; }
+
+    /* ===== 본문 ===== */
+    main section { padding: 70px 0; }
+    .bg { background: #f5f7fb; }
+
+    .section-head {
+      margin-bottom: 30px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #09265a;
+    }
+
+    h2 {
+      margin: 8px 0 0;
+      color: #09265a;
+      font-size: 31px;
+    }
+
+    /* ===== 교수 카드 ===== */
+    .prof-list {
+      display: grid;
+      gap: 28px;
+    }
+
+    .prof {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 44px;
+      align-items: center;
+      padding: 36px;
+      border: 1px solid #e3e7ee;
+      border-radius: 14px;
+      background: #fff;
+      transition: .25s;
+    }
+
+    .prof:hover {
+      box-shadow: 0 14px 30px #09265a1f;
+      transform: translateY(-4px);
+    }
+
+    /* 사진 (없으면 실루엣) */
+    .photo {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border-radius: 10px;
+      background: linear-gradient(160deg, #eaf2ff, #c9dcfb);
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo.no-img img { display: none; }
+
+    .photo.no-img::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 26%;
+      width: 34%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #9dbbe9;
+      transform: translateX(-50%);
+    }
+
+    .photo.no-img::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 64%;
+      height: 34%;
+      border-radius: 50% 50% 0 0;
+      background: #9dbbe9;
+      transform: translateX(-50%);
+    }
+
+    .prof-title {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 6px 0 22px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #09265a;
+    }
+
+    .prof-title h3 {
+      margin: 0;
+      color: #09265a;
+      font-size: 29px;
+    }
+
+    .prof-title h3 small {
+      margin-left: 4px;
+      color: #455166;
+      font-size: 18px;
+    }
+
+    .role {
+      padding: 5px 12px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 20px;
+      background: #2167dc;
+    }
+
+    .prof-info {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 14px 10px;
+      margin: 0;
+    }
+
+    .prof-info dt {
+      color: #2167dc;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .prof-info dd {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .prof-info dd.empty { color: #a5adbb; }
+    .prof-info a:hover { color: #2167dc; text-decoration: underline; }
+
+    .back {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 13px 22px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 6px;
+      background: #09265a;
+      transition: .2s;
+    }
+
+    .back:hover { background: #2167dc; }
+
+    /* ===== 푸터 ===== */
+    footer {
+      padding: 38px 0;
+      color: #b9c2d2;
+      font-size: 14px;
+      line-height: 1.9;
+      background: #08152d;
+    }
+
+    footer strong {
+      color: #fff;
+      font-size: 18px;
+    }
+
+    /* ===== 반응형 ===== */
+    @media (max-width: 900px) {
+      .menu-panel { width: 70%; }
+    }
+
+    @media (max-width: 650px) {
+      header,
+      .menu-head { height: 65px; }
+
+      .logo { gap: 6px; font-size: 15px; }
+      .logo img { width: 27px; height: 27px; }
+      .menu-btn { padding: 8px 11px; font-size: 13px; }
+
+      .menu-panel { width: 85%; padding: 0 26px; }
+      .menu-list a { padding: 17px 0; font-size: 19px; }
+
+      .page-hero { padding: 60px 0 50px; }
+      main section { padding: 50px 0; }
+      h2 { font-size: 26px; }
+
+      .prof {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 26px 22px;
+      }
+
+      .prof .photo {
+        width: min(220px, 100%);
+        margin: auto;
+      }
+
+      .prof-title h3 { font-size: 24px; }
+      .prof-info { grid-template-columns: 70px 1fr; }
+      .prof-info dd { font-size: 15px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <a class="logo" href="index.html">
+        <img src="images/log.svg" alt="광주여자대학교 로고">
+        <span>광주여자대학교 <span>AI미디어콘텐츠학과</span></span>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기">
+        MENU <span class="burger"><i></i><i></i><i></i></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 사이드 메뉴 -->
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <nav class="menu-panel">
+    <div class="menu-head">
+      <small>MENU</small>
+      <button class="menu-close" id="menuClose" aria-label="메뉴 닫기">&times;</button>
+    </div>
+    <ul class="menu-list">
+      <li><a href="index.html"><span>01</span>홈</a></li>
+      <li><a href="professor.html" class="active"><span>02</span>교수진 소개</a></li>
+      <li><a href="index.html#activity"><span>03</span>학생활동</a></li>
+      <li><a href="job.html"><span>04</span>취업현황</a></li>
+    </ul>
+    <div class="menu-foot">광주여자대학교 AI미디어콘텐츠학과</div>
+  </nav>
+
+  <!-- 페이지 타이틀 -->
+  <div class="page-hero">
+    <div class="wrap">
+      <small>FACULTY</small>
+      <h1>교수진 소개</h1>
+      <div class="breadcrumb"><a href="index.html">HOME</a> &gt; 교수진 소개</div>
+    </div>
+  </div>
+
+  <main>
+    <section class="bg">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="label">PROFESSORS</div>
+          <h2>전임 교수진</h2>
+        </div>
+
+        <div class="prof-list" id="profList"></div>
+
+        <a class="back" href="index.html">← 메인으로 돌아가기</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>광주여자대학교 AI미디어콘텐츠학과</strong><br>
+      광주광역시 광산구 여대길 201 광주여자대학교<br>
+      © 2026 Gwangju Women's University. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    /* ===== 사이드 메뉴 ===== */
+    function openMenu()  { document.body.classList.add("menu-open"); }
+    function closeMenu() { document.body.classList.remove("menu-open"); }
+
+    document.getElementById("menuBtn").addEventListener("click", openMenu);
+    document.getElementById("menuClose").addEventListener("click", closeMenu);
+    document.getElementById("menuOverlay").addEventListener("click", closeMenu);
+    document.querySelectorAll(".menu-list a").forEach(a => a.addEventListener("click", closeMenu));
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+
+    /* ===== 교수진 목록 =====
+       - 연락처/이메일은 "" 안에 입력하세요. 비어 있으면 "-"로 표시됩니다.
+       - role: 직책 (없으면 "") */
+    const professors = [
+      {
+        name: "이철승",
+        role: "학과장",
+        photo: "images/prof1.jpg",
+        lab: "황룡관 R203호",
+        tel: "",
+        email: "",
+        major: "(Ph.D.) 컴퓨터공학"
+      },
+      {
+        name: "OOO",
+        role: "",
+        photo: "images/prof2.jpg",
+        lab: "황룡관 R404호",
+        tel: "",
+        email: "",
+        major: "인공지능융합(의료, 교육)"
+      }
+    ];
+
+    const show = value => value
+      ? `<dd>${value}</dd>`
+      : `<dd class="empty">-</dd>`;
+
+    document.getElementById("profList").innerHTML = professors.map(p => `
+      <article class="prof">
+        <div class="photo">
+          <img src="${p.photo}" alt="${p.name} 교수 사진"
+               onerror="this.parentNode.classList.add('no-img')">
+        </div>
+        <div>
+          <div class="label">PROFESSOR</div>
+          <div class="prof-title">
+            <h3>${p.name}<small>교수</small></h3>
+            ${p.role ? `<span class="role">${p.role}</span>` : ""}
+          </div>
+          <dl class="prof-info">
+            <dt>연구실</dt>${show(p.lab)}
+            <dt>연락처</dt>${show(p.tel)}
+            <dt>이메일</dt>${show(p.email ? `<a href="mailto:${p.email}">${p.email}</a>` : "")}
+            <dt>전공</dt>${show(p.major)}
+          </dl>
+        </div>
+      </article>
+    `).join("");
+  </script>
+</body>
+</html>

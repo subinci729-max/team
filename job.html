@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>취업현황 | 광주여자대학교 AI미디어콘텐츠학과</title>
+
+  <style>
+    /* ===== 기본 ===== */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      font-size: 17px;
+      color: #182033;
+      word-break: keep-all;
+    }
+
+    body.menu-open { overflow: hidden; }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .wrap {
+      width: min(1100px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* ===== 헤더 ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 72px;
+      background: #fff;
+      border-bottom: 1px solid #e5e8ef;
+    }
+
+    header .wrap {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #09265a;
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .logo img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    .logo span,
+    .label { color: #2167dc; }
+
+    .label {
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    /* ===== 메뉴 버튼 ===== */
+    .menu-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      color: #09265a;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border: 1px solid #d9dfeb;
+      border-radius: 6px;
+      background: #fff;
+      transition: .2s;
+    }
+
+    .menu-btn:hover {
+      color: #2167dc;
+      border-color: #2167dc;
+    }
+
+    .burger {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 18px;
+    }
+
+    .burger i {
+      display: block;
+      height: 2px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    /* ===== 사이드 메뉴 (화면 절반) ===== */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 199;
+      background: rgba(6, 22, 48, .5);
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s;
+    }
+
+    .menu-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 200;
+      width: 50%;
+      height: 100%;
+      padding: 0 50px;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+      background: #061630;
+      transform: translateX(100%);
+      transition: transform .4s ease;
+    }
+
+    body.menu-open .menu-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    body.menu-open .menu-panel { transform: none; }
+
+    .menu-head {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, .15);
+    }
+
+    .menu-head small {
+      color: #8ec8ff;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .menu-close {
+      color: #fff;
+      font-size: 36px;
+      line-height: 1;
+      cursor: pointer;
+      border: 0;
+      background: none;
+    }
+
+    .menu-list {
+      margin: auto 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .menu-list a {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 0;
+      font-size: 22px;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
+      transition: .25s;
+    }
+
+    .menu-list a span {
+      color: #8ec8ff;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .menu-list a::after {
+      content: "→";
+      margin-left: auto;
+      color: #86cbff;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: .25s;
+    }
+
+    .menu-list a:hover,
+    .menu-list a.active { color: #86cbff; }
+
+    .menu-list a:hover::after {
+      opacity: 1;
+      transform: none;
+    }
+
+    .menu-foot {
+      padding: 26px 0;
+      color: #8a9ab8;
+      font-size: 13px;
+    }
+
+    /* ===== 페이지 상단 타이틀 ===== */
+    .page-hero {
+      padding: 90px 0 70px;
+      color: #fff;
+      background: linear-gradient(135deg, #061630, #09265a 55%, #2167dc);
+    }
+
+    .page-hero small {
+      color: #8ec8ff;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .page-hero h1 {
+      margin: 12px 0 14px;
+      font-size: clamp(36px, 5vw, 52px);
+      letter-spacing: -2px;
+    }
+
+    .breadcrumb {
+      color: #b9cdf0;
+      font-size: 14px;
+    }
+
+    .breadcrumb a:hover { color: #fff; }
+
+    /* ===== 본문 ===== */
+    main section {
+      padding: 70px 0;
+      scroll-margin-top: 72px;
+    }
+
+    .bg { background: #f5f7fb; }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 30px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #09265a;
+    }
+
+    h2 {
+      margin: 8px 0 0;
+      color: #09265a;
+      font-size: 31px;
+    }
+
+    .count {
+      color: #8a92a1;
+      font-size: 15px;
+    }
+
+    .count b { color: #2167dc; }
+
+    /* ===== 졸업생 프로필 카드 ===== */
+    .people {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .person {
+      overflow: hidden;
+      border: 1px solid #e3e7ee;
+      border-radius: 12px;
+      background: #fff;
+      transition: .25s;
+    }
+
+    .person:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 28px #09265a22;
+    }
+
+    /* 사진 (없으면 실루엣) */
+    .photo {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: linear-gradient(160deg, #eaf2ff, #c9dcfb);
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .35s;
+    }
+
+    .person:hover .photo img { transform: scale(1.05); }
+
+    .photo.no-img img { display: none; }
+
+    .photo.no-img::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 26%;
+      width: 34%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #9dbbe9;
+      transform: translateX(-50%);
+    }
+
+    .photo.no-img::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 64%;
+      height: 34%;
+      border-radius: 50% 50% 0 0;
+      background: #9dbbe9;
+      transform: translateX(-50%);
+    }
+
+    .tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 1;
+      padding: 5px 11px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 20px;
+      background: #2167dc;
+    }
+
+    .tag.intern { background: #0aa58a; }
+
+    .info { padding: 20px 20px 22px; }
+
+    .student-id {
+      color: #2167dc;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .name {
+      margin: 6px 0 14px;
+      color: #09265a;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .company {
+      margin: 0;
+      padding-top: 14px;
+      border-top: 1px solid #e3e7ee;
+    }
+
+    .company dt {
+      margin-bottom: 4px;
+      color: #8a92a1;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .company dd {
+      margin: 0 0 10px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .company dd:last-child { margin-bottom: 0; }
+
+    /* ===== 예상 취업률 표 ===== */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid #e3e7ee;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 520px;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    .table-wrap th {
+      padding: 16px 12px;
+      color: #fff;
+      background: #09265a;
+    }
+
+    .table-wrap td {
+      padding: 15px 12px;
+      color: #455166;
+      text-align: center;
+      border-top: 1px solid #e3e7ee;
+    }
+
+    .table-wrap tbody tr:nth-child(even) { background: #f8fafd; }
+
+    .table-wrap tr.total td {
+      color: #2167dc;
+      font-weight: bold;
+      background: #eaf2ff;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 13px 22px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 6px;
+      background: #09265a;
+      transition: .2s;
+    }
+
+    .back:hover { background: #2167dc; }
+
+    /* ===== 푸터 ===== */
+    footer {
+      padding: 38px 0;
+      color: #b9c2d2;
+      font-size: 14px;
+      line-height: 1.9;
+      background: #08152d;
+    }
+
+    footer strong {
+      color: #fff;
+      font-size: 18px;
+    }
+
+    /* ===== 반응형 ===== */
+    @media (max-width: 950px) {
+      .people { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+      .menu-panel { width: 70%; }
+    }
+
+    @media (max-width: 720px) {
+      .people { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    }
+
+    @media (max-width: 650px) {
+      header,
+      .menu-head { height: 65px; }
+
+      .logo { gap: 6px; font-size: 15px; }
+      .logo img { width: 27px; height: 27px; }
+      .menu-btn { padding: 8px 11px; font-size: 13px; }
+
+      .menu-panel { width: 85%; padding: 0 26px; }
+      .menu-list a { padding: 17px 0; font-size: 19px; }
+
+      .page-hero { padding: 60px 0 50px; }
+      main section { padding: 50px 0; scroll-margin-top: 65px; }
+      h2 { font-size: 26px; }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .info { padding: 16px 14px 18px; }
+      .name { font-size: 19px; }
+      .company dd { font-size: 14px; }
+      .table-wrap table { font-size: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <a class="logo" href="index.html">
+        <img src="images/log.svg" alt="광주여자대학교 로고">
+        <span>광주여자대학교 <span>AI미디어콘텐츠학과</span></span>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기">
+        MENU <span class="burger"><i></i><i></i><i></i></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 사이드 메뉴 -->
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <nav class="menu-panel">
+    <div class="menu-head">
+      <small>MENU</small>
+      <button class="menu-close" id="menuClose" aria-label="메뉴 닫기">&times;</button>
+    </div>
+    <ul class="menu-list">
+      <li><a href="index.html#home"><span>01</span>홈</a></li>
+  <li><a href="index.html#professor"><span>02</span>교수진 소개</a></li>
+  <li><a href="index.html#activity"><span>03</span>학생활동</a></li>
+  <li><a href="job.html" class="active"><span>04</span>취업현황</a></li>
+    </ul>
+    <div class="menu-foot">광주여자대학교 AI미디어콘텐츠학과</div>
+  </nav>
+
+  <!-- 페이지 타이틀 -->
+  <div class="page-hero">
+    <div class="wrap">
+      <small>EMPLOYMENT STATUS</small>
+      <h1>취업현황</h1>
+      <div class="breadcrumb"><a href="index.html">HOME</a> &gt; 취업현황</div>
+    </div>
+  </div>
+
+  <main>
+    <!-- 졸업생 프로필 -->
+    <section id="graduates">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="label">GRADUATES</div>
+            <h2>졸업생 취업 현황</h2>
+          </div>
+          <div class="count">총 <b id="total">0</b>명</div>
+        </div>
+        <div class="people" id="people"></div>
+      </div>
+    </section>
+
+    <!-- 예상 취업률 -->
+    <section class="bg" id="expected">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="label">EXPECTED EMPLOYMENT</div>
+            <h2>2024년(4학년)부터 예상 취업률</h2>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>분야</th><th>2024년</th><th>2025년</th><th>2026년</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>인공지능 트랙</td><td>10명</td><td>10명</td><td>10명</td></tr>
+              <tr><td>VR 콘텐츠 디자인 트랙</td><td>10명</td><td>10명</td><td>10명</td></tr>
+              <tr><td>ICT 기업</td><td>5명</td><td>5명</td><td>5명</td></tr>
+              <tr class="total"><td>예상 취업률</td><td>100%</td><td>100%</td><td>100%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <a class="back" href="index.html">← 메인으로 돌아가기</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>광주여자대학교 AI미디어콘텐츠학과</strong><br>
+      광주광역시 광산구 여대길 201 광주여자대학교<br>
+      © 2026 Gwangju Women's University. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    /* ===== 사이드 메뉴 ===== */
+    function openMenu()  { document.body.classList.add("menu-open"); }
+    function closeMenu() { document.body.classList.remove("menu-open"); }
+
+    document.getElementById("menuBtn").addEventListener("click", openMenu);
+    document.getElementById("menuClose").addEventListener("click", closeMenu);
+    document.getElementById("menuOverlay").addEventListener("click", closeMenu);
+    document.querySelectorAll(".menu-list a").forEach(a => a.addEventListener("click", closeMenu));
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+
+    /* ===== 졸업생 목록 =====
+       - photo : 학생 사진 경로 (없으면 기본 실루엣)
+       - type  : "취업" 또는 "인턴" */
+    const students = [
+      { id: "21학번", name: "김OO", company: "(주)AtoZSystem",     job: "식약처 정보시스템 유지보수", type: "취업", photo: "images/student1.jpg" },
+      { id: "21학번", name: "이OO", company: "(주)AtoZSystem",     job: "식약처 정보시스템 유지보수", type: "취업", photo: "images/student2.jpg" },
+      { id: "21학번", name: "박OO", company: "(주)AtoZSystem",     job: "인턴 근무",                 type: "인턴", photo: "images/student3.jpg" },
+      { id: "21학번", name: "최OO", company: "(주)KS산업안전협회", job: "LMS시스템 콘텐츠 개발",      type: "취업", photo: "images/student4.jpg" },
+      { id: "21학번", name: "정OO", company: "(주)아토모스",       job: "데이터사이언티스트",         type: "취업", photo: "images/student5.jpg" },
+      { id: "21학번", name: "강OO", company: "ABC마트",            job: "온라인시스템 관리",          type: "취업", photo: "images/student6.jpg" },
+      { id: "21학번", name: "조OO", company: "한국도로공사",       job: "무인시스템 관리",            type: "취업", photo: "images/student7.jpg" },
+      { id: "21학번", name: "윤OO", company: "(주)국제커리어",     job: "컨설턴트",                   type: "취업", photo: "images/student8.jpg" }
+    ];
+
+    document.getElementById("total").textContent = students.length;
+
+    document.getElementById("people").innerHTML = students.map(s => `
+      <article class="person">
+        <div class="photo">
+          <span class="tag ${s.type === "인턴" ? "intern" : ""}">${s.type}</span>
+          <img src="${s.photo}" alt="${s.name} 사진"
+               onerror="this.parentNode.classList.add('no-img')">
+        </div>
+        <div class="info">
+          <div class="student-id">${s.id}</div>
+          <div class="name">${s.name}</div>
+          <dl class="company">
+            <dt>취업처</dt><dd>${s.company}</dd>
+            <dt>담당 업무</dt><dd>${s.job}</dd>
+          </dl>
+        </div>
+      </article>
+    `).join("");
+  </script>
+</body>
+</html>
